@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="TrotinetiZajednicki">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../TrotinetiCommon/out/artifacts/TrotinetiZajednicki_jar/TrotinetiZajednicki.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
