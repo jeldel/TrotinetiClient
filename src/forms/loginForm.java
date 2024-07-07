@@ -1,12 +1,6 @@
 package forms;
 
-//import controller.Controller;
-
-import client.communication.Communication;
-import communication.Operations;
-import communication.Request;
-import communication.Response;
-import communication.ResponseType;
+import controller.Controller;
 import domain.Korisnik;
 import domain.TipKorisnika;
 
@@ -37,50 +31,24 @@ public class loginForm extends JDialog {
                 try {
                     validateForm();
 
-                    String username = txtUsername.getText();
-                    String password = String.valueOf(txtPassword.getPassword());
+                    Korisnik korisnik = Controller.getInstance().login(txtUsername.getText(), String.valueOf(txtPassword.getPassword()));
 
-                    Korisnik korisnik = new Korisnik();
-                    korisnik.setUsername(username);
-                    korisnik.setSifra(password);
-
-                    Request request = new Request(Operations.LOGIN, korisnik);
-                    Response response = Communication.getInstance().login(request);
-
-                    if (response.getResponseType().equals(ResponseType.SUCCESS)) {
-                        Korisnik k = (Korisnik) response.getResult();
-                        //JOptionPane.showMessageDialog(btnLogin, "Dobrodosli!:" + k.getIme());
-                        if (k.getTipKorisnika().equals(TipKorisnika.Korisnik)) {
-                            dispose();
-                            JOptionPane.showMessageDialog(btnLogin, "Dobrodosli korisnice!:" + k.getIme());
-                            //new mainFormUser().setVisible(true);
-                        } else if (k.getTipKorisnika().equals(TipKorisnika.Administrator)) {
-                            dispose();
-                            JOptionPane.showMessageDialog(btnLogin, "Dobrodosli admine!:" + k.getIme());
-                            //new mainFormAdmin().setVisible(true);
-                        }
+                    if (korisnik.getTipKorisnika() == TipKorisnika.Korisnik) {
+                        Controller.getInstance().setUlogovaniKorisnik(korisnik);
+                        dispose();
+                        new mainFormUser().setVisible(true);
+                    } else if (korisnik.getTipKorisnika() == TipKorisnika.Administrator) {
+                        Controller.getInstance().setUlogovaniKorisnik(korisnik);
+                        dispose();
+                        new mainFormAdmin().setVisible(true);
                     } else {
-                        JOptionPane.showMessageDialog(btnLogin, "Error:" + response.getException().getMessage());
+                        throw new Exception("Nepoznat korisnik!");
                     }
+
 
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(loginForm.this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
                 }
-
-//
-//                    Korisnik korisnik = Controller.getInstance().login(txtUsername.getText(), String.valueOf(txtPassword.getPassword()));
-//
-//                    if (korisnik.getTipKorisnika() == TipKorisnika.Korisnik) {
-//                        dispose();
-//                        new mainFormUser().setVisible(true);
-//                    } else if (korisnik.getTipKorisnika() == TipKorisnika.Administrator) {
-//                        dispose();
-//                        new mainFormAdmin().setVisible(true);
-//                    } else {
-//                        throw new Exception("Nepoznat korisnik!");
-//                    }
-//
-//
             }
         });
 

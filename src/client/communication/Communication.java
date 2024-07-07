@@ -26,10 +26,24 @@ public class Communication {
         this.socket = socket;
     }
 
-    public Response login(Request request) throws Exception {
+    public Response makeRequest(Request request) throws Exception{
         new Sender(socket).send(request);
-        System.out.println("Zahtev za login je poslat");
         Response receive = (Response) new Receiver(socket).receive();
         return receive;
     }
+
+
+    //    public Response login(Request request) throws Exception {
+//        new Sender(socket).send(request);
+//        System.out.println("Zahtev za login je poslat");
+//        Response receive = (Response) new Receiver(socket).receive();
+//        return receive;
+//    }
+//
+//    public Response addVoznja(Request request) throws Exception{
+//        new Sender(socket).send(request);
+//        System.out.println("Zahtev za cuvanje voznje je poslat");
+//        Response receive = (Response) new Receiver(socket).receive();
+//        return receive;
+//    }
 }
