@@ -9,8 +9,8 @@ import java.util.List;
 
 public class TableModelKorisnik extends AbstractTableModel {
     private List<Korisnik> korisnici;
-    private String[] columnNames = new String[]{"korisnikID", "brojLicneKarte", "ime", "prezime", "email", "grad", "telefon", "username","sifra" , "tipKorisnika"};
-    private Class[] columnClass = new Class[]{Long.class, Long.class, String.class,String.class, String.class, GradEnum.class, String.class, String.class, String.class, TipKorisnika.class};
+    private String[] columnNames = new String[]{"korisnikID", "brojLicneKarte", "ime", "prezime", "email", "grad", "telefon", "username", "sifra" , "tipKorisnika"};
+    private Class[] columnClass = new Class[]{Long.class, Long.class, String.class, String.class, String.class, GradEnum.class, String.class, String.class, String.class, TipKorisnika.class};
 
     public TableModelKorisnik(List<Korisnik> korisnici) {
         this.korisnici = korisnici;
@@ -46,7 +46,7 @@ public class TableModelKorisnik extends AbstractTableModel {
     }
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if (columnIndex == 0)
+        if (columnIndex == 0 || columnIndex == 7 || columnIndex == 9)
             return false;
         else
             return true;

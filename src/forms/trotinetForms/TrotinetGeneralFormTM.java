@@ -83,7 +83,24 @@ public class TrotinetGeneralFormTM extends JDialog {
         btnEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    int selectedRow = tblTrotineti.getSelectedRow();
+                    if(selectedRow == -1){
+                        JOptionPane.showMessageDialog(btnEdit, "Niste izabrali trotinet", "Error", JOptionPane.ERROR_MESSAGE);
+                    }else {
+                        Long trotinetID = (Long) tblTrotineti.getValueAt(selectedRow, 0);
+                        Trotinet t = Controller.getInstance().getTrotinetById(trotinetID);
+                        t.setVrstaTrotineta((VrstaTrotinetaEnum) tblTrotineti.getValueAt(selectedRow, 1));
+                        t.setModel((String) tblTrotineti.getValueAt(selectedRow,2));
 
+                        Controller.getInstance().updateTrotinet(t);
+                        JOptionPane.showMessageDialog(btnEdit, "Uspesno azuriranje trotineta", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        prepareView();
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(btnEdit, "Neuspesno azuriranje trotineta! Proverite da li azurirate trotinet za koji postoji voznja ", "Error", JOptionPane.ERROR_MESSAGE);
+                    throw new RuntimeException(ex);
+                }
             }
         });
 

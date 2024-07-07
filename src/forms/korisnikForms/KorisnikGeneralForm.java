@@ -3,6 +3,7 @@ package forms.korisnikForms;
 import controller.Controller;
 import domain.GradEnum;
 import domain.Korisnik;
+import domain.TipKorisnika;
 import forms.components.TableModelKorisnik;
 
 import javax.swing.*;
@@ -106,6 +107,37 @@ public class KorisnikGeneralForm extends JDialog {
                 }
             }
         });
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int selectedRow = tblKorisnik.getSelectedRow();
+                    if(selectedRow == -1){
+                        JOptionPane.showMessageDialog(btnEdit, "Niste izabrali korisnika", "Error", JOptionPane.ERROR_MESSAGE);
+                    }else {
+                        String username = (String) tblKorisnik.getValueAt(selectedRow, 7);
+                        List<Korisnik> korisnici = Controller.getInstance().getAllByUsername(username);
+
+                        Korisnik k = korisnici.get(0);
+                        k.setBrojLicneKarte((Long) tblKorisnik.getValueAt(selectedRow,1));
+                        k.setIme((String) tblKorisnik.getValueAt(selectedRow,2));
+                        k.setPrezime((String) tblKorisnik.getValueAt(selectedRow,3));
+                        k.setEmail((String) tblKorisnik.getValueAt(selectedRow,4));
+                        k.setGrad((GradEnum) tblKorisnik.getValueAt(selectedRow, 5));
+                        k.setTelefon((String) tblKorisnik.getValueAt(selectedRow,6));
+                        k.setSifra((String) tblKorisnik.getValueAt(selectedRow,8));
+                        k.setTipKorisnika((TipKorisnika) tblKorisnik.getValueAt(selectedRow,9));
+
+                        Controller.getInstance().updateKorisnik(k);
+                        JOptionPane.showMessageDialog(btnEdit, "Uspesno azuriranje korisnika", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        prepareView();
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(btnEdit, "Neuspesno azuriranje korisnika! Proverite da li azurirate korisnika za kog postoji voznja ", "Error", JOptionPane.ERROR_MESSAGE);
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
 
 
@@ -124,7 +156,7 @@ public class KorisnikGeneralForm extends JDialog {
         tblKorisnik.setModel(tableModelKorisnik);
 
         JComboBox cmbGrad = new JComboBox(GradEnum.values());
-        TableColumn tableColumnGrad = tblKorisnik.getColumnModel().getColumn(4);
+        TableColumn tableColumnGrad = tblKorisnik.getColumnModel().getColumn(5);
         tableColumnGrad.setCellEditor(new DefaultCellEditor(cmbGrad));
     }
 

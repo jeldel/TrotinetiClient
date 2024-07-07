@@ -210,7 +210,7 @@ public class Controller {
         Response response = Communication.getInstance().makeRequest(request);
 
         if (response.getResponseType().equals(ResponseType.SUCCESS)) {
-            System.out.println("Uspesno brisanje voznje!");
+            System.out.println("Uspesno ucitavanje liste korisnika!");
             return (List<Korisnik>) response.getResult();
         } else {
             throw response.getException();
@@ -219,11 +219,10 @@ public class Controller {
 
     public List<Korisnik> getAllByUsername(String username) throws Exception{
         Request request = new Request(Operations.GET_ALL_KORISNIK_BY_USERNAME, username);
-        Response response = null;
-        response = Communication.getInstance().makeRequest(request);
+        Response response = Communication.getInstance().makeRequest(request);
 
         if (response.getResponseType().equals(ResponseType.SUCCESS)) {
-            System.out.println("Uspesno vracena lista voznji po kriterijumu!");
+            System.out.println("Uspesno vracena lista korisnika po kriterijumu!");
             return (List<Korisnik>) response.getResult();
         } else {
             throw response.getException();
@@ -243,12 +242,33 @@ public class Controller {
 
     public List<Osoba> getByBrojLK(Long brojLK) throws Exception {
         Request request = new Request(Operations.GET_ALL_OSOBE_BY_BROJ_LK, brojLK);
-        Response response = null;
-        response = Communication.getInstance().makeRequest(request);
+        Response response = Communication.getInstance().makeRequest(request);
 
         if (response.getResponseType().equals(ResponseType.SUCCESS)) {
-            System.out.println("Uspesno vracena lista korisnika po kriterijumu!");
+            System.out.println("Uspesno vracena lista osoba po kriterijumu!");
             return (List<Osoba>) response.getResult();
+        } else {
+            throw response.getException();
+        }
+    }
+
+    public void updateKorisnik(Korisnik korisnik) throws Exception{
+        Request request = new Request(Operations.UPDATE_KORISNIK, korisnik);
+        Response response = Communication.getInstance().makeRequest(request);
+
+        if (response.getResponseType().equals(ResponseType.SUCCESS)) {
+            System.out.println("Uspesno izmenjen korisnik!");
+        } else {
+            throw response.getException();
+        }
+    }
+
+    public void updateTrotinet(Trotinet trotinet) throws Exception {
+        Request request = new Request(Operations.UPDATE_TROTINET, trotinet);
+        Response response = Communication.getInstance().makeRequest(request);
+
+        if (response.getResponseType().equals(ResponseType.SUCCESS)) {
+            System.out.println("Uspesno izmenjen trotinet!");
         } else {
             throw response.getException();
         }

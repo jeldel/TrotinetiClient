@@ -3,6 +3,8 @@ package forms.voznjeForms;
 import controller.Controller;
 import domain.IznajmljivanjeTrotineta;
 import domain.TipKorisnika;
+import domain.Trotinet;
+import domain.VrstaTrotinetaEnum;
 import forms.components.DatePicker;
 import forms.components.TableModelVoznja;
 import forms.mainFormUser;
