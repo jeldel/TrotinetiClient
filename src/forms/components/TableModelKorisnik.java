@@ -46,7 +46,7 @@ public class TableModelKorisnik extends AbstractTableModel {
     }
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if (columnIndex == 0 || columnIndex == 7 || columnIndex == 9)
+        if (columnIndex == 0 || columnIndex == 7)
             return false;
         else
             return true;

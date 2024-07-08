@@ -3,8 +3,6 @@ package forms.voznjeForms;
 import controller.Controller;
 import domain.IznajmljivanjeTrotineta;
 import domain.TipKorisnika;
-import domain.Trotinet;
-import domain.VrstaTrotinetaEnum;
 import forms.components.DatePicker;
 import forms.components.TableModelVoznja;
 import forms.mainFormUser;
@@ -18,7 +16,6 @@ import java.util.List;
 public class VoznjeGeneralFormTM extends JDialog {
     private JPanel contentPane;
     private JButton buttonCancel;
-    private JButton btnEdit;
     private JTable tblVoznje;
     private JButton btnSearch;
     private JTextField txtSearch;
@@ -27,8 +24,9 @@ public class VoznjeGeneralFormTM extends JDialog {
     public VoznjeGeneralFormTM() {
         setContentPane(contentPane);
         setModal(true);
-        setBounds(500, 200, 700, 400);
+        setBounds(400, 200, 700, 400);
         setTitle("Rad sa voznjama");
+        tblVoznje.setEnabled(false);
 
         try {
             tblVoznje.setVisible(true);
@@ -102,7 +100,6 @@ public class VoznjeGeneralFormTM extends JDialog {
             }
             txtSearch.setEditable(false);
             btnSearch.setEnabled(false);
-            btnEdit.setEnabled(false);
         }
         if (Controller.getInstance().getUlogovanKorisnik().getTipKorisnika() == TipKorisnika.Administrator) {
             try {

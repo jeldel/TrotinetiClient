@@ -37,7 +37,7 @@ public class CreateKorisnikForm extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        setBounds(500,200, 450,400);
+        setBounds(400,200, 450,400);
         setTitle("Kreiranje korisnika");
 
         try {

@@ -14,7 +14,7 @@ public class TrotinetiForm extends JDialog {
 
     public TrotinetiForm() {
         setContentPane(contentPane);
-        setBounds(500,200,300,200);
+        setBounds(400,200, 500,250);
         setModal(true);
         setTitle("Rad sa trotinetima");
 

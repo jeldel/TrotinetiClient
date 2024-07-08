@@ -58,6 +58,7 @@ public class OsobeMainForm extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new CreateOsobaForm().setVisible(true);
+                prepareView();
             }
         });
         btnSearch.addActionListener(new ActionListener() {

@@ -17,7 +17,7 @@ public class mainFormUser extends JDialog {
         setContentPane(contentPane);
         setTitle("Korisnicka forma");
         setModal(true);
-        setBounds(500,200,400,200);
+        setBounds(400,200, 500,300);
 
 
 

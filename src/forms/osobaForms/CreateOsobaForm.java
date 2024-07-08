@@ -19,9 +19,10 @@ public class CreateOsobaForm extends JDialog {
     public CreateOsobaForm() {
         setContentPane(contentPane);
         setModal(true);
-        setBounds(500,200, 450,400);
+        setBounds(400,200, 450,400);
         setTitle("Kreiraj osobu");
         setAlwaysOnTop(true);
+        getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

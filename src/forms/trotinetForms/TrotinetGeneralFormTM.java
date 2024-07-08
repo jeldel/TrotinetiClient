@@ -23,7 +23,7 @@ public class TrotinetGeneralFormTM extends JDialog {
     public TrotinetGeneralFormTM() {
         setContentPane(contentPane);
         setModal(true);
-        setBounds(500, 200, 700, 400);
+        setBounds(400, 200, 700, 400);
         setTitle("Rad sa trotinetima");
 
         try {

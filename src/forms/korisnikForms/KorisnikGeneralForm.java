@@ -158,6 +158,10 @@ public class KorisnikGeneralForm extends JDialog {
         JComboBox cmbGrad = new JComboBox(GradEnum.values());
         TableColumn tableColumnGrad = tblKorisnik.getColumnModel().getColumn(5);
         tableColumnGrad.setCellEditor(new DefaultCellEditor(cmbGrad));
+
+        JComboBox cmbTipKorisnika = new JComboBox(TipKorisnika.values());
+        TableColumn tableColumnTipKorisnika = tblKorisnik.getColumnModel().getColumn(9);
+        tableColumnTipKorisnika.setCellEditor(new DefaultCellEditor(cmbTipKorisnika));
     }
 
 

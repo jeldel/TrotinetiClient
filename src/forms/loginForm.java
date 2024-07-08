@@ -22,7 +22,7 @@ public class loginForm extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         setTitle("Login forma");
-        setBounds(500, 200, 350, 200);
+        setBounds(400,200, 500,300);
         getRootPane().setDefaultButton(btnLogin);
 
 

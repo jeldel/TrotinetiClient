@@ -37,8 +37,9 @@ public class VoznjeNovaForm extends JDialog {
     public VoznjeNovaForm() {
         setContentPane(contentPane);
         setModal(true);
-        setBounds(500, 200, 500, 300);
+        setBounds(400, 200, 500, 300);
         setTitle("Kreiraj voznju");
+        getRootPane().setDefaultButton(buttonOK);
 
 
         try {
@@ -59,7 +60,7 @@ public class VoznjeNovaForm extends JDialog {
                     voznja.setDatumVreme(dateChooser.getDate());
                     voznja.setBrojSati(Double.parseDouble(txtHours.getText()));
                     Controller.getInstance().addVoznja(voznja);
-                    JOptionPane.showMessageDialog(buttonOK, "Uspesno ste kreirali voznju! ", "Success", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(buttonOK, "Uspesno ste kreirali voznju! ", "Success", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(buttonOK, "Greska pri kreiranju voznje! " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }

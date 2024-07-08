@@ -15,7 +15,7 @@ public class KorisniciForm extends JDialog {
     public KorisniciForm() {
         setContentPane(contentPane);
         setModal(true);
-        setBounds(500,200, 500,200);
+        setBounds(400,200, 500,250);
         setTitle("Rad sa korisnicima");
 
         btnReturn.addActionListener(new ActionListener() {

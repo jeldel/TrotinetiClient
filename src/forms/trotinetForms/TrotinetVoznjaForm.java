@@ -24,6 +24,7 @@ public class TrotinetVoznjaForm extends JDialog {
         setTitle("Dodaj trotinet");
         setBounds(400, 200, 500, 300);
 
+
         try {
             tblTrotineti.setVisible(true);
             prepareView();
@@ -37,7 +38,7 @@ public class TrotinetVoznjaForm extends JDialog {
                     try {
                         int selectedRow = tblTrotineti.getSelectedRow();
                         if (selectedRow == -1) {
-                            JOptionPane.showMessageDialog(buttonOK, "Niste izabrali trotinet", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(buttonOK, "Niste izabrali trotinet!", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         Long trotinetID = (Long) tblTrotineti.getValueAt(selectedRow, 0);
                         Trotinet trotinet = Controller.getInstance().getTrotinetById(trotinetID);
@@ -123,6 +124,7 @@ public class TrotinetVoznjaForm extends JDialog {
             cmbSearch.addItem(vrstaTrotinetaEnum);
         }
         cmbSearch.addItem("Svi trotineti");
+
 
     }
 

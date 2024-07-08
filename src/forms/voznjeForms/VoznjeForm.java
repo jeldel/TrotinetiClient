@@ -14,7 +14,8 @@ public class VoznjeForm extends JDialog {
     public VoznjeForm() {
         setContentPane(contentPane);
         setModal(true);
-        setBounds(500,200, 300,200);
+        setBounds(400,200, 500,250);
+        setTitle("Rad sa voznjama");
 
         btnReturn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
