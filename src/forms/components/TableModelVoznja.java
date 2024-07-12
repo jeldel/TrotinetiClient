@@ -3,6 +3,7 @@ package forms.components;
 import controller.Controller;
 import domain.IznajmljivanjeTrotineta;
 import domain.Korisnik;
+import domain.Osoba;
 import domain.Trotinet;
 
 import javax.swing.table.AbstractTableModel;
@@ -11,8 +12,8 @@ import java.util.List;
 
 public class TableModelVoznja extends AbstractTableModel {
     private List<IznajmljivanjeTrotineta> voznje;
-    private String[] columnNames = new String[]{"IznajmljivanjeID", "Datum", "Broj sati", "TrotinetID", "KorisnikID"};
-    private Class[] columnClass = new Class[]{Long.class, Date.class, Double.class, Long.class, Long.class};
+    private String[] columnNames = new String[]{"IznajmljivanjeID", "Datum", "Broj sati", "TrotinetID", "KorisnikID", "OsobaBrojLK"};
+    private Class[] columnClass = new Class[]{Long.class, Date.class, Double.class, Long.class, Long.class, Long.class};
 
     public TableModelVoznja(List<IznajmljivanjeTrotineta> voznje) {
         this.voznje = voznje;
@@ -70,6 +71,8 @@ public class TableModelVoznja extends AbstractTableModel {
                 return iznajmljivanjeTrotineta.getTrotinet() != null ? iznajmljivanjeTrotineta.getTrotinet().getTrotinetID() : null;
             case 4:
                 return iznajmljivanjeTrotineta.getKorisnik() != null ? iznajmljivanjeTrotineta.getKorisnik().getkorisnikID() : null;
+            case 5:
+                return iznajmljivanjeTrotineta.getOsoba() != null ? iznajmljivanjeTrotineta.getOsoba().getBrojLicneKarte() : null;
             default:
                 return "Nije dostupno";
         }
@@ -102,6 +105,11 @@ public class TableModelVoznja extends AbstractTableModel {
                 Korisnik korisnik = new Korisnik();
                 korisnik.setkorisnikID((Long)aValue);
                 iznajmljivanjeTrotineta.setKorisnik(korisnik);
+                break;
+            case 5:
+                Osoba osoba = new Osoba();
+                osoba.setBrojLicneKarte((Long) aValue);
+                iznajmljivanjeTrotineta.setOsoba(osoba);
                 break;
         }
     }

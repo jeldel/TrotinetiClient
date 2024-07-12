@@ -6,16 +6,19 @@ import domain.IznajmljivanjeTrotineta;
 import domain.Korisnik;
 import domain.Osoba;
 import domain.Trotinet;
+import forms.components.TableModelVoznja;
 import forms.osobaForms.OsobeMainForm;
 import forms.trotinetForms.TrotinetVoznjaForm;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VoznjeNovaForm extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
+    private JButton btnSave;
     private JLabel lblUser;
     private JTextField txtUser;
     private JLabel lblOsoba;
@@ -26,21 +29,22 @@ public class VoznjeNovaForm extends JDialog {
     private JTextField txtHours;
     private JButton btnSelectOsoba;
     private JTextField txtDate;
-    private JTable tblDate;
     private JLabel lblDate;
     private JButton btnSelectTrotinet;
     private JPanel datePickerPanel;
     private JButton btnCancel;
     private JButton btnGetAll;
+    private JButton btnAdd;
+    private JTable tblVoznje;
     JDateChooser dateChooser;
 
     public VoznjeNovaForm() {
         setContentPane(contentPane);
         setModal(true);
-        setBounds(400, 200, 500, 300);
+        setBounds(400, 200, 700, 300);
         setTitle("Kreiraj voznju");
-        getRootPane().setDefaultButton(buttonOK);
-
+        getRootPane().setDefaultButton(btnSave);
+        tblVoznje.setEnabled(false);
 
         try {
             prepareView();
@@ -50,22 +54,35 @@ public class VoznjeNovaForm extends JDialog {
         }
 
 
-        buttonOK.addActionListener(new ActionListener() {
+        btnSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
+                TableModelVoznja tableModelVoznja = (TableModelVoznja) tblVoznje.getModel();
+                List<IznajmljivanjeTrotineta> voznje = tableModelVoznja.getVoznje();
                 try {
-                    IznajmljivanjeTrotineta voznja = new IznajmljivanjeTrotineta();
-                    voznja.setKorisnik(Controller.getInstance().getUlogovanKorisnik());
-                    voznja.setOsoba(Controller.getInstance().getIzabranaOsoba());
-                    voznja.setTrotinet(Controller.getInstance().getIzabraniTrotinet());
-                    voznja.setDatumVreme(dateChooser.getDate());
-                    voznja.setBrojSati(Double.parseDouble(txtHours.getText()));
-                    Controller.getInstance().addVoznja(voznja);
-                    JOptionPane.showMessageDialog(buttonOK, "Uspesno ste kreirali voznju! ", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    if (voznje.isEmpty()) {
+                        IznajmljivanjeTrotineta voznja = new IznajmljivanjeTrotineta();
+                        voznja.setKorisnik(Controller.getInstance().getUlogovanKorisnik());
+                        voznja.setOsoba(Controller.getInstance().getIzabranaOsoba());
+                        voznja.setTrotinet(Controller.getInstance().getIzabraniTrotinet());
+                        voznja.setDatumVreme(dateChooser.getDate());
+                        voznja.setBrojSati(Double.parseDouble(txtHours.getText()));
+                        voznja.setOsoba(Controller.getInstance().getIzabranaOsoba());
+                        Controller.getInstance().addVoznja(voznja);
+                        JOptionPane.showMessageDialog(btnSave, "Uspesno ste kreirali voznju! ", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                    } else {
+                        Controller.getInstance().addAllVoznje(voznje);
+                        JOptionPane.showMessageDialog(btnSave, "Uspesno ste sacuvali voznje", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    Controller.getInstance().setIzabraneVoznje(new ArrayList<>());
+                    Controller.getInstance().setIzabraniTrotinet(null);
+                    Controller.getInstance().setIzabranaOsoba(null);
+                    dispose();
+                    new VoznjeNovaForm().setVisible(true);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(buttonOK, "Greska pri kreiranju voznje! " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(btnSave, "Greska pri cuvanju", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
-
             }
         });
 
@@ -111,6 +128,27 @@ public class VoznjeNovaForm extends JDialog {
                 new VoznjeGeneralFormTM().setVisible(true);
             }
         });
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+                    IznajmljivanjeTrotineta iznajmljivanjeTrotineta = new IznajmljivanjeTrotineta();
+                    iznajmljivanjeTrotineta.setKorisnik(Controller.getInstance().getUlogovanKorisnik());
+                    iznajmljivanjeTrotineta.setTrotinet(Controller.getInstance().getIzabraniTrotinet());
+                    iznajmljivanjeTrotineta.setBrojSati(Double.valueOf(txtHours.getText()));
+                    iznajmljivanjeTrotineta.setDatumVreme(dateChooser.getDate());
+                    iznajmljivanjeTrotineta.setOsoba(Controller.getInstance().getIzabranaOsoba());
+                    Controller.getInstance().getIzabraneVoznje().add(iznajmljivanjeTrotineta);
+                } catch (Exception exception){
+                    exception.printStackTrace();
+                }
+
+                dispose();
+                new VoznjeNovaForm().setVisible(true);
+
+            }
+        });
     }
 
     private void onCancel() {
@@ -123,6 +161,18 @@ public class VoznjeNovaForm extends JDialog {
         izabranaOsoba();
         izabraniTrotinet();
         postaviDatum();
+        pripremaTabele();
+    }
+
+    private void pripremaTabele() {
+        List<IznajmljivanjeTrotineta> voznje = null;
+        try {
+            voznje = Controller.getInstance().getIzabraneVoznje();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        TableModelVoznja tableModelVoznja = new TableModelVoznja(voznje);
+        tblVoznje.setModel(tableModelVoznja);
     }
 
     private void postaviDatum() {

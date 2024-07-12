@@ -7,6 +7,7 @@ import communication.Response;
 import communication.ResponseType;
 import domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,6 +16,9 @@ public class Controller {
     private Korisnik ulogovaniKorisnik;
     private Osoba izabranaOsoba;
     private Trotinet izabraniTrotinet;
+    private List<IznajmljivanjeTrotineta> izabraneVoznje = new ArrayList<>();
+
+
 
     private Controller() {
     }
@@ -272,5 +276,14 @@ public class Controller {
         } else {
             throw response.getException();
         }
+    }
+
+
+    public List<IznajmljivanjeTrotineta> getIzabraneVoznje() {
+        return izabraneVoznje;
+    }
+
+    public void setIzabraneVoznje(List<IznajmljivanjeTrotineta> izabraneVoznje) {
+        this.izabraneVoznje = izabraneVoznje;
     }
 }
