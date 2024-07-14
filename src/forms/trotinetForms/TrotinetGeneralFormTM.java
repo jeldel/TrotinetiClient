@@ -57,26 +57,30 @@ public class TrotinetGeneralFormTM extends JDialog {
         btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    if (cmbSearch.getSelectedItem() == "Svi trotineti"){
-                        List<Trotinet> trotineti = null;
-                        try {
-                            trotineti = Controller.getInstance().getAllTrotinet();
-                        } catch (Exception ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        TableModelTrotinet tableModelTrotinet = new TableModelTrotinet(trotineti);
-                        tblTrotineti.setModel(tableModelTrotinet);
+                if (cmbSearch.getSelectedItem() == "Svi trotineti") {
+                    List<Trotinet> trotineti = null;
+                    try {
+                        trotineti = Controller.getInstance().getAllTrotinet();
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
                     }
-                    else{
-                        List<Trotinet> trotineti = null;
-                        try {
-                            trotineti = Controller.getInstance().getAllByVrsta((VrstaTrotinetaEnum) cmbSearch.getSelectedItem());
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
+                    TableModelTrotinet tableModelTrotinet = new TableModelTrotinet(trotineti);
+                    tblTrotineti.setModel(tableModelTrotinet);
+                } else {
+                    List<Trotinet> trotineti = null;
+                    try {
+                        trotineti = Controller.getInstance().getAllByVrsta((VrstaTrotinetaEnum) cmbSearch.getSelectedItem());
+                        if (!trotineti.isEmpty()) {
+                            JOptionPane.showMessageDialog(btnSearch, "Sistem je nasao trotinete po zadatoj vrednosti", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(btnSearch, "Sistem ne moze da nadje trotinete po zadatoj vrednosti", "Error", JOptionPane.ERROR_MESSAGE);
                         }
-                        TableModelTrotinet tableModelTrotinet = new TableModelTrotinet(trotineti);
-                        tblTrotineti.setModel(tableModelTrotinet);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
+                    TableModelTrotinet tableModelTrotinet = new TableModelTrotinet(trotineti);
+                    tblTrotineti.setModel(tableModelTrotinet);
+                }
 
             }
         });
@@ -85,20 +89,20 @@ public class TrotinetGeneralFormTM extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int selectedRow = tblTrotineti.getSelectedRow();
-                    if(selectedRow == -1){
-                        JOptionPane.showMessageDialog(btnEdit, "Niste izabrali trotinet", "Error", JOptionPane.ERROR_MESSAGE);
-                    }else {
+                    if (selectedRow == -1) {
+                        JOptionPane.showMessageDialog(btnEdit, "Sistem ne moze da zapamti trotinet", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
                         Long trotinetID = (Long) tblTrotineti.getValueAt(selectedRow, 0);
                         Trotinet t = Controller.getInstance().getTrotinetById(trotinetID);
                         t.setVrstaTrotineta((VrstaTrotinetaEnum) tblTrotineti.getValueAt(selectedRow, 1));
-                        t.setModel((String) tblTrotineti.getValueAt(selectedRow,2));
+                        t.setModel((String) tblTrotineti.getValueAt(selectedRow, 2));
 
                         Controller.getInstance().updateTrotinet(t);
-                        JOptionPane.showMessageDialog(btnEdit, "Uspesno azuriranje trotineta", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(btnEdit, "Sistem je zapamtio trotinet", "Success", JOptionPane.INFORMATION_MESSAGE);
                         prepareView();
                     }
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(btnEdit, "Neuspesno azuriranje trotineta! Proverite da li azurirate trotinet za koji postoji voznja ", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(btnEdit, "Sistem ne moze da zapamti trotinet", "Error", JOptionPane.ERROR_MESSAGE);
                     throw new RuntimeException(ex);
                 }
             }
@@ -109,16 +113,17 @@ public class TrotinetGeneralFormTM extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int selectedRow = tblTrotineti.getSelectedRow();
-                    if(selectedRow == -1){
-                        JOptionPane.showMessageDialog(btnDelete, "Niste izabrali trotinet", "Error", JOptionPane.ERROR_MESSAGE);
-                    }else {
+                    if (selectedRow == -1) {
+                        JOptionPane.showMessageDialog(btnDelete, "Sistem ne moze da obrise trotinet", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
                         Long trotinetID = (Long) tblTrotineti.getValueAt(selectedRow, 0);
                         Controller.getInstance().deleteTrotinet(trotinetID);
-                        JOptionPane.showMessageDialog(btnDelete, "Uspesno brisanje trotineta", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(btnDelete, "Uspesno pozvana operacija za brisanje trotineta! Ukoliko je trotinet jos uvek u tabeli " +
+                                "ne mozete ga obrisati jer postoji voznja za njega", "Success", JOptionPane.INFORMATION_MESSAGE);
                         prepareView();
                     }
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(btnDelete, "Neuspesno brisanje trotineta! Proverite da li brisete trotinet za koji postoji voznja ", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(btnDelete, "Sistem ne moze da obrise trotinet ", "Error", JOptionPane.ERROR_MESSAGE);
                     throw new RuntimeException(ex);
                 }
             }

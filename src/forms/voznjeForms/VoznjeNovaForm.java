@@ -81,7 +81,7 @@ public class VoznjeNovaForm extends JDialog {
                     dispose();
                     new VoznjeNovaForm().setVisible(true);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(btnSave, "Greska pri cuvanju", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(btnSave, "Sistem ne moze da zapamti voznju", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

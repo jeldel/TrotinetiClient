@@ -66,10 +66,15 @@ public class OsobeMainForm extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     List<Osoba> osobe = Controller.getInstance().getByBrojLK(Long.valueOf(txtSearch.getText()));
+                    if (!osobe.isEmpty()) {
+                        JOptionPane.showMessageDialog(btnSearch, "Sistem je nasao osobu po zadatoj vrednosti", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(btnSearch, "Sistem ne moze da nadje osobu po zadatoj vrednosti", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                     TableModelOsoba tableModelOsoba = new TableModelOsoba(osobe);
                     tblOsobe.setModel(tableModelOsoba);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(btnSearch, "Niste uneli adekvatan broj licne karte!");
+                    ex.printStackTrace();
                 }
             }
         });

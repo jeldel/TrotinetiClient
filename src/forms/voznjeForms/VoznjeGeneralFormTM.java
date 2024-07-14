@@ -66,6 +66,11 @@ public class VoznjeGeneralFormTM extends JDialog {
                     List<IznajmljivanjeTrotineta> voznje = null;
                     try {
                         voznje = Controller.getInstance().getAllByCriteria(username);
+                        if (!voznje.isEmpty()) {
+                            JOptionPane.showMessageDialog(btnSearch, "Sistem je nasao voznje po zadatoj vrednosti", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(btnSearch, "Sistem ne moze da nadje voznje po zadatoj vrednosti", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }

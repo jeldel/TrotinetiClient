@@ -28,8 +28,7 @@ public class Communication {
 
     public Response makeRequest(Request request) throws Exception{
         new Sender(socket).send(request);
-        Response receive = (Response) new Receiver(socket).receive();
-        return receive;
+        return (Response) new Receiver(socket).receive();
     }
 
 

@@ -59,7 +59,7 @@ public class KorisnikGeneralForm extends JDialog {
         btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(txtSearch.getText().isEmpty()){
+                if (txtSearch.getText().isEmpty()) {
                     List<Korisnik> korisnici = null;
                     try {
                         korisnici = Controller.getInstance().getAllKorisnik();
@@ -68,10 +68,15 @@ public class KorisnikGeneralForm extends JDialog {
                     }
                     TableModelKorisnik tableModelKorisnik = new TableModelKorisnik(korisnici);
                     tblKorisnik.setModel(tableModelKorisnik);
-                } else{
+                } else {
                     List<Korisnik> korisnici = null;
                     try {
                         korisnici = Controller.getInstance().getAllByUsername(txtSearch.getText());
+                        if (!korisnici.isEmpty()) {
+                            JOptionPane.showMessageDialog(btnSearch, "Sistem je nasao korisnike po zadatoj vrednosti", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(btnSearch, "Sistem ne moze da nadje korisnike po zadatoj vrednosti", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
@@ -80,29 +85,22 @@ public class KorisnikGeneralForm extends JDialog {
                 }
             }
         });
-
-        btnEdit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     int selectedRow = tblKorisnik.getSelectedRow();
-                    if(selectedRow == -1){
-                        JOptionPane.showMessageDialog(btnDelete, "Niste izabrali korisnika", "Error", JOptionPane.ERROR_MESSAGE);
-                    }else {
+                    if (selectedRow == -1) {
+                        JOptionPane.showMessageDialog(btnDelete, "Sistem ne moze da obrise korisnika", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
                         String username = (String) tblKorisnik.getValueAt(selectedRow, 7);
                         Controller.getInstance().deleteKorisnik(username);
-                        JOptionPane.showMessageDialog(btnDelete, "Uspesno brisanje korisnika", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(btnDelete, "Uspesno pozvana operacija za brisanje korisnika! Ukoliko je korisnik jos uvek u tabeli " +
+                                "ne mozete ga obrisati jer postoji voznja za njega", "Success", JOptionPane.INFORMATION_MESSAGE);
                         prepareView();
                     }
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(btnDelete, "Neuspesno brisanje korisnika! Proverite da li brisete korisnika za kog postoji voznja ", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(btnDelete, "Sistem ne moze da obrise korisnika ", "Error", JOptionPane.ERROR_MESSAGE);
                     throw new RuntimeException(ex);
                 }
             }
@@ -112,28 +110,28 @@ public class KorisnikGeneralForm extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int selectedRow = tblKorisnik.getSelectedRow();
-                    if(selectedRow == -1){
-                        JOptionPane.showMessageDialog(btnEdit, "Niste izabrali korisnika", "Error", JOptionPane.ERROR_MESSAGE);
-                    }else {
+                    if (selectedRow == -1) {
+                        JOptionPane.showMessageDialog(btnEdit, "Sistem ne moze da zapamti korisnika", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
                         String username = (String) tblKorisnik.getValueAt(selectedRow, 7);
                         List<Korisnik> korisnici = Controller.getInstance().getAllByUsername(username);
 
                         Korisnik k = korisnici.get(0);
-                        k.setBrojLicneKarte((Long) tblKorisnik.getValueAt(selectedRow,1));
-                        k.setIme((String) tblKorisnik.getValueAt(selectedRow,2));
-                        k.setPrezime((String) tblKorisnik.getValueAt(selectedRow,3));
-                        k.setEmail((String) tblKorisnik.getValueAt(selectedRow,4));
+                        k.setBrojLicneKarte((Long) tblKorisnik.getValueAt(selectedRow, 1));
+                        k.setIme((String) tblKorisnik.getValueAt(selectedRow, 2));
+                        k.setPrezime((String) tblKorisnik.getValueAt(selectedRow, 3));
+                        k.setEmail((String) tblKorisnik.getValueAt(selectedRow, 4));
                         k.setGrad((GradEnum) tblKorisnik.getValueAt(selectedRow, 5));
-                        k.setTelefon((String) tblKorisnik.getValueAt(selectedRow,6));
-                        k.setSifra((String) tblKorisnik.getValueAt(selectedRow,8));
-                        k.setTipKorisnika((TipKorisnika) tblKorisnik.getValueAt(selectedRow,9));
+                        k.setTelefon((String) tblKorisnik.getValueAt(selectedRow, 6));
+                        k.setSifra((String) tblKorisnik.getValueAt(selectedRow, 8));
+                        k.setTipKorisnika((TipKorisnika) tblKorisnik.getValueAt(selectedRow, 9));
 
                         Controller.getInstance().updateKorisnik(k);
-                        JOptionPane.showMessageDialog(btnEdit, "Uspesno azuriranje korisnika", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(btnEdit, "Sistem je zapamtio korisnika", "Success", JOptionPane.INFORMATION_MESSAGE);
                         prepareView();
                     }
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(btnEdit, "Neuspesno azuriranje korisnika! Proverite da li azurirate korisnika za kog postoji voznja ", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(btnEdit, "Sistem ne moze da zapamti korisnika", "Error", JOptionPane.ERROR_MESSAGE);
                     throw new RuntimeException(ex);
                 }
             }
@@ -145,7 +143,7 @@ public class KorisnikGeneralForm extends JDialog {
         prepareTableVoznja();
     }
 
-    private void prepareTableVoznja(){
+    private void prepareTableVoznja() {
         List<Korisnik> korisnici = null;
         try {
             korisnici = Controller.getInstance().getAllKorisnik();
